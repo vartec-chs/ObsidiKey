@@ -1,0 +1,52 @@
+/* ./GT Eesti Pro Display
+
+gteestiprodisplay_bold.otf
+gteestiprodisplay_light.otf
+gteestiprodisplay_medium.otf
+gteestiprodisplay_regular.otf
+gteestiprodisplay_thin.otf
+gteestiprodisplay_ultrabold.otf
+*/
+
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_bold.otf') format('opentype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_light.otf') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_medium.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_regular.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_thin.otf') format('opentype');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('./gteestiprodisplay_ultrabold.otf') format('opentype');
+	font-weight: 900;
+	font-style: normal;
+}

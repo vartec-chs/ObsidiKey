@@ -1,0 +1,73 @@
+/* GT Eesti Pro Display */
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_bold.otf') format('opentype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_light.otf') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_medium.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_regular.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_thin.otf') format('opentype');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Display';
+	src: url('../assets/fonts/GT Eesti Pro Display/gteestiprodisplay_ultrabold.otf') format('opentype');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* GT Eesti Pro Text */
+@font-face {
+	font-family: 'GT Eesti Pro Text';
+	src: url('../assets/fonts/GT Eesti Pro Text/gteestiprotext_bold.otf') format('opentype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Text';
+	src: url('../assets/fonts/GT Eesti Pro Text/gteestiprotext_medium.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'GT Eesti Pro Text';
+	src: url('../assets/fonts/GT Eesti Pro Text/gteestiprotext_regular.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}

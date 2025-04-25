@@ -1,0 +1,31 @@
+/* ./GT Eesti Pro Text
+
+gteestiprotext_bold.otf
+gteestiprotext_medium.otf
+gteestiprotext_regular.otf
+*/
+
+
+@font-face {
+    font-family: 'GT Eesti Pro Text';
+    src: url('./GT Eesti Pro Text/gteestiprotext_bold.otf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Eesti Pro Text';
+    src: url('./GT Eesti Pro Text/gteestiprotext_medium.otf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Eesti Pro Text';
+    src: url('./GT Eesti Pro Text/gteestiprotext_regular.otf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
