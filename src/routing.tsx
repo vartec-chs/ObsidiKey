@@ -6,6 +6,7 @@ import { AnimationLayout } from '@layouts/AnimationLayout'
 import { BackButtonLayout } from '@layouts/BackButtonLayout'
 import { MainLayout } from '@layouts/MainLayout'
 
+import { FirstOpenScreen } from '@screens/FirstOpenScreen'
 import { HomeScreen } from '@screens/HomeScreen'
 import { StorageOperationScreen } from '@screens/StorageOperationScreen'
 
@@ -27,11 +28,11 @@ export const router = createBrowserRouter([
 								element: <HomeScreen />,
 							},
 							{
-								path: PATHS.CREATE_STORAGE,
-								element: <StorageOperationScreen />,
+								path: PATHS.FIRST_OPEN,
+								element: <FirstOpenScreen />,
 							},
 							{
-								path: PATHS.OPEN_STORAGE,
+								path: PATHS.PASSWORD_STORAGE.ROOT,
 								element: <StorageOperationScreen />,
 							},
 						],

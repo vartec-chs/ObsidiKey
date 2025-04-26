@@ -9,6 +9,7 @@ export const BottomBar: FC = () => {
 		<Stack
 			component='footer'
 			padding={1}
+			position={'static'}
 			width='100%'
 			sx={(theme) => ({
 				borderRadius: 0,

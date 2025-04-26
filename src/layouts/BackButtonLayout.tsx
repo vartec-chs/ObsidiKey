@@ -14,7 +14,7 @@ export const BackButtonLayout: FC = () => {
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
 
-	const isHome = pathname === `${PATHS.HOME}`
+	const isNotBackButton = pathname === `${PATHS.HOME}` || pathname === `${PATHS.FIRST_OPEN}`
 
 	return (
 		<Stack
@@ -35,12 +35,12 @@ export const BackButtonLayout: FC = () => {
 			})}
 		>
 			<AnimatePresence>
-				{!isHome && (
+				{!isNotBackButton && (
 					<MotionMuiBox
 						initial={{ opacity: 0, x: -100 }}
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: -100 }}
-						transition={{ duration: 0.5, ease: 'easeInOut', type: 'spring' }}
+						transition={{ duration: 0.8, ease: 'easeInOut', type: 'spring' }}
 						style={{
 							position: 'absolute',
 							top: 6,

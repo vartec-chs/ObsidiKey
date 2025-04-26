@@ -31,7 +31,13 @@ export const MainLayout: FC = () => {
 
 export const ContentWrapper: FC<PropsWithChildren> = ({ children }) => {
 	return (
-		<Box  component='main' width='100%' height={`calc(100% - ${AppBarHeight + BottomBarHeight}px)`}>
+		<Box
+			position='relative'
+			overflow='hidden'
+			component='main'
+			width='100%'
+			height={`calc(100% - ${AppBarHeight + BottomBarHeight}px)`}
+		>
 			{children}
 		</Box>
 	)

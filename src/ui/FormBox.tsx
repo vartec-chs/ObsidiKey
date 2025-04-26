@@ -65,11 +65,9 @@
 // }
 import { motion } from 'framer-motion'
 
-import { FC, PropsWithChildren } from 'react'
+import { FC, forwardRef, PropsWithChildren } from 'react'
 
 import { Box, colors, Paper, PaperProps, styled } from '@mui/material'
-
-import { MotionMuiBox } from './MotionMuiBox'
 
 const FormPaper = styled((props: PaperProps) => <Paper elevation={0} {...props} />)(
 	({ theme }) => ({
@@ -77,9 +75,15 @@ const FormPaper = styled((props: PaperProps) => <Paper elevation={0} {...props} 
 		borderRadius: theme.shape.borderRadius,
 		backgroundColor: theme.palette.mode === 'dark' ? colors.grey[900] : colors.grey[100],
 		border: `1px solid ${theme.palette.mode === 'dark' ? colors.grey[800] : colors.grey[200]}`,
-		padding: theme.spacing(1),
+		padding: theme.spacing(2),
 	}),
 )
+
+const BoxComponent = forwardRef<HTMLDivElement, Omit<PaperProps, 'onDrag'>>((props, ref) => (
+	<FormPaper {...props} ref={ref as React.Ref<HTMLDivElement>} />
+))
+
+export const MotionFormBox = motion(BoxComponent)
 
 interface FormBoxProps extends PropsWithChildren {
 	width?: number | string
@@ -101,17 +105,41 @@ interface FormBoxProps extends PropsWithChildren {
 		| 'space-around'
 		| 'space-evenly'
 	headerContent?: React.ReactNode
+	footerContent?: React.ReactNode
+	formComponent?: React.ElementType<any, keyof React.JSX.IntrinsicElements>
+	formProps?: React.ComponentPropsWithRef<any>
+}
+
+const variants = {
+	initial: () => ({
+		x: 300,
+		opacity: 0,
+		filter: 'blur(4px)',
+	}),
+	active: {
+		x: 0,
+		opacity: 1,
+		filter: 'blur(0px)',
+	},
+	exit: () => ({
+		x: -300,
+		opacity: 0,
+		filter: 'blur(4px)',
+	}),
 }
 
 export const FormBox: FC<FormBoxProps> = ({
 	children,
-	width = '100%',
-	height = '100%',
+	width = '400px',
+	height = 'fit-content',
 	direction = 'column',
 	gap = 1,
 	alignItems = 'center',
 	justifyContent,
 	headerContent,
+	footerContent,
+	formComponent = 'div',
+	formProps,
 }) => {
 	return (
 		<Box
@@ -135,7 +163,9 @@ export const FormBox: FC<FormBoxProps> = ({
 				justifyContent='center'
 				alignItems='center'
 			> */}
-			<FormPaper
+			<MotionFormBox
+				{...formProps}
+				component={formComponent}
 				style={{
 					width,
 					height,
@@ -148,7 +178,8 @@ export const FormBox: FC<FormBoxProps> = ({
 				}}
 			>
 				{children}
-			</FormPaper>
+			</MotionFormBox>
+			{footerContent}
 			{/* </MotionMuiBox> */}
 		</Box>
 	)

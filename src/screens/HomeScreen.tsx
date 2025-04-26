@@ -1,11 +1,10 @@
 import { PATHS } from '@config/paths'
 import { FormBox } from '@ui/FormBox'
-import { ModTextField } from '@ui/ModTextField'
 
 import type { FC } from 'react'
 import { useNavigate } from 'react-router'
 
-import { Button, Divider, Stack, TextField, Typography } from '@mui/material'
+import { Button, Divider, Stack, Typography } from '@mui/material'
 
 import { LockKeyholeIcon } from 'lucide-react'
 
@@ -15,7 +14,15 @@ export const HomeScreen: FC = () => {
 	const navigate = useNavigate()
 
 	const handleCreateStorage = () => {
-		navigate(PATHS.CREATE_STORAGE)
+		navigate(PATHS.PASSWORD_STORAGE.CREATE)
+	}
+
+	const handleOpenStorage = () => {
+		navigate(PATHS.PASSWORD_STORAGE.OPEN)
+	}
+
+	const handleSetGlobalPassword = () => {
+		navigate(PATHS.FIRST_OPEN)
 	}
 
 	const header = (
@@ -26,11 +33,11 @@ export const HomeScreen: FC = () => {
 	)
 	return (
 		<FormBox headerContent={header} gap={12} width={'400px'} height={'fit-content'}>
-			<Button fullWidth variant='contained' size='large'>
+			<Button fullWidth variant='contained' size='large' onClick={handleOpenStorage}>
 				Открыть хранилище
 			</Button>
 
-			<Button fullWidth variant='outlined' size='large'>
+			<Button fullWidth variant='outlined' size='large' onClick={handleCreateStorage}>
 				Создать хранилище
 			</Button>
 
@@ -38,6 +45,10 @@ export const HomeScreen: FC = () => {
 			<Button fullWidth color='warning' variant='text' size='large' startIcon={<LockKeyholeIcon />}>
 				Генератор паролей
 			</Button>
+
+			{/* <Button onClick={handleSetGlobalPassword} fullWidth color='warning' variant='text' size='large' startIcon={<LockKeyholeIcon />}>
+				Назначить глобальный пароль
+			</Button> */}
 		</FormBox>
 	)
 }

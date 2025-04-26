@@ -1,7 +1,16 @@
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
-import { alpha, OutlinedInputProps, styled, TextField, TextFieldProps } from '@mui/material'
+import {
+	alpha,
+	IconButton,
+	OutlinedInputProps,
+	styled,
+	TextField,
+	TextFieldProps,
+} from '@mui/material'
 import { grey } from '@mui/material/colors'
+
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 const ModernTextField = styled((props: TextFieldProps) => (
 	<TextField InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>} {...props} />
@@ -60,22 +69,42 @@ const ModernTextField = styled((props: TextFieldProps) => (
 }))
 
 export const ModTextField = forwardRef<HTMLInputElement, TextFieldProps>(
-	({ variant = 'filled', ...props }, ref) =>
-		props.size !== 'small' ? (
+	({ variant = 'filled', ...props }, ref) => {
+		const inputType = props.type
+		const [type, setType] = useState(inputType)
+
+		const Button = (
+			<IconButton onClick={() => setType(type === 'password' ? 'text' : 'password')}>
+				{type === 'password' ? <EyeIcon /> : <EyeOffIcon />}
+			</IconButton>
+		)
+
+		return props.size !== 'small' ? (
 			<ModernTextField
 				{...props}
+				type={inputType === 'password' ? type : inputType}
 				size='small'
 				variant='filled'
 				ref={ref}
-				InputProps={{ disableUnderline: true, ...props.InputProps }}
+				InputProps={{
+					disableUnderline: true,
+					...props.InputProps,
+					endAdornment: inputType === 'password' ? Button : null,
+				}}
 			/>
 		) : (
 			<ModernTextField
 				{...props}
+				type={inputType === 'password' ? type : inputType}
 				sx={{ '& .MuiFilledInput-root': { height: '3.6rem' } }}
 				variant='filled'
 				ref={ref}
-				InputProps={{ disableUnderline: true, ...props.InputProps }}
+				InputProps={{
+					disableUnderline: true,
+					...props.InputProps,
+					endAdornment: inputType === 'password' ? Button : null,
+				}}
 			/>
-		),
+		)
+	},
 )

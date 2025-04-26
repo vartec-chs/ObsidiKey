@@ -1,5 +1,9 @@
 export const PATHS = {
+	FIRST_OPEN: '/first-open',
 	HOME: '/',
-	CREATE_STORAGE: '/create-storage',
-	OPEN_STORAGE: '/open-storage',
+	PASSWORD_STORAGE: {
+		ROOT: '/password-storage',
+		CREATE: '/password-storage?mode=create',
+		OPEN: '/password-storage?mode=open',
+	},
 }

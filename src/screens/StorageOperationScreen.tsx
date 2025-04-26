@@ -1,19 +1,40 @@
+import { PATHS } from '@config/paths'
+import { CreatePasswordStorageForm } from '@forms/CreatePasswordStorageForm'
+import { OpenPasswordStorageForm } from '@forms/OpenPasswordStorageForm'
 import { FormBox } from '@ui/FormBox'
-import { ModTextField } from '@ui/ModTextField'
+import { Segment, SegmentedControl } from '@ui/SegmentedControl'
 
 import type { FC } from 'react'
-
-import { Button, Typography } from '@mui/material'
+import { useNavigate, useSearchParams } from 'react-router'
 
 export const StorageOperationScreen: FC = () => {
-	return (
-		<FormBox gap={8} width={'400px'} height={'300px'} justifyContent='space-between'>
-			<Typography variant='body1'></Typography>
+	const [searchParams] = useSearchParams()
+	const mode = searchParams.get('mode') || 'create'
 
-			<ModTextField fullWidth label='Name' variant='outlined' />
-			<Button size='large' fullWidth variant='contained'>
-				Создать
-			</Button>
+	const navigate = useNavigate()
+
+	const switchPage = (value: 'create' | 'open') => {
+		if (value === 'create') {
+			navigate(PATHS.PASSWORD_STORAGE.CREATE, { replace: true })
+		} else {
+			navigate(PATHS.PASSWORD_STORAGE.OPEN, { replace: true })
+		}
+	}
+
+	const header = (
+		<SegmentedControl
+			sx={{ height: '50px' }}
+			onChange={(_, value) => switchPage(value)}
+			value={mode}
+		>
+			<Segment value='create' label='Создать' />
+			<Segment value='open' label='Открыть' />
+		</SegmentedControl>
+	)
+
+	return (
+		<FormBox headerContent={header} gap={8} >
+			{mode === 'create' ? <CreatePasswordStorageForm /> : <OpenPasswordStorageForm />}
 		</FormBox>
 	)
 }
