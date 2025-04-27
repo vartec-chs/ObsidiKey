@@ -123,6 +123,7 @@ export const AnimatedSegmentedTabs = ({
 			{!isNotContent && (
 				<MotionConfig transition={{ duration: 0.4, type: 'spring', bounce: 0.2 }}>
 					<MotionFormBox
+						layout
 						style={{
 							position: 'relative',
 							// minWidth: '100%',
@@ -138,7 +139,7 @@ export const AnimatedSegmentedTabs = ({
 							margin: '0 auto',
 						}}
 						initial={false}
-						animate={{ height: bounds.height || 'fit-content' }}
+						animate={{ height: 'fit-content' }}
 					>
 						<Box ref={ref} width='100%'>
 							<AnimatePresence

@@ -23,17 +23,6 @@ export const StorageOperationScreen: FC = () => {
 		}
 	}
 
-	const header = (
-		<SegmentedControl
-			sx={{ height: '50px' }}
-			onChange={(_, value) => switchPage(value)}
-			value={mode}
-		>
-			<Segment value='create' label='Создать' />
-			<Segment value='open' label='Открыть' />
-		</SegmentedControl>
-	)
-
 	const tabs = [
 		{ id: 0, label: 'Создать', content: <CreatePasswordStorageForm /> },
 		{ id: 1, label: 'Открыть', content: <OpenPasswordStorageForm /> },

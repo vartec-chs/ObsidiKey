@@ -82,7 +82,8 @@ export const CreatePasswordStorageForm: FC = () => {
 	return (
 		<Stack
 			width={'100%'}
-			// maxHeight={'400px'}
+			height={'fit-content'}
+			maxHeight={'400px'}
 			// sx={{
 			// 	overflowY: 'auto',
 			// 	overflow: 'auto',

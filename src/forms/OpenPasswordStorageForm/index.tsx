@@ -100,7 +100,13 @@ export const OpenPasswordStorageForm: FC = () => {
 	}
 
 	return (
-		<Stack width={'100%'} component='form' onSubmit={handleSubmit(onSubmit)} gap={2}>
+		<Stack
+			width={'100%'}
+			height={'fit-content'}
+			component='form'
+			onSubmit={handleSubmit(onSubmit)}
+			gap={2}
+		>
 			<Controller
 				name='path'
 				control={control}

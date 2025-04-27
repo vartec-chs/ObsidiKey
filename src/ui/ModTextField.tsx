@@ -19,12 +19,7 @@ const ModernTextField = styled((props: TextFieldProps) => (
 		overflow: 'hidden',
 		borderRadius: theme.spacing(1),
 
-		// height: '3.6rem',
-
-		// backgroundColor: 'transparent',
-		// backgroundColor: theme.palette.mode === 'light' ? alpha(grey[900], 0.1) : alpha(grey[900], 0.4),
 		border: `1px solid ${theme.palette.mode === 'light' ? alpha(grey[900], 0.1) : alpha(grey[900], 0.4)}`,
-		// borderColor: theme.palette.mode === 'light' ? '#E0E3E7' : '#2D3843',
 		transition: theme.transitions.create(['border-color', 'background-color', 'box-shadow']),
 
 		'&:-webkit-autofill': {
@@ -87,8 +82,10 @@ export const ModTextField = forwardRef<HTMLInputElement, TextFieldProps>(
 				variant='filled'
 				ref={ref}
 				slotProps={{
+					...props.slotProps,
 					input: {
 						disableUnderline: true,
+						...props.slotProps?.input,
 					},
 				}}
 				InputProps={{
@@ -106,8 +103,10 @@ export const ModTextField = forwardRef<HTMLInputElement, TextFieldProps>(
 				variant='filled'
 				ref={ref}
 				slotProps={{
+					...props.slotProps,
 					input: {
 						disableUnderline: true,
+						...props.slotProps?.input,
 					},
 				}}
 				InputProps={{
