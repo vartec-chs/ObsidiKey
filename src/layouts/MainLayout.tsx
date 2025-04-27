@@ -7,6 +7,8 @@ import { Outlet } from 'react-router'
 
 import { Box, Stack } from '@mui/material'
 
+import { NotificationsProvider, notificationsProviderSlots } from '@hooks/useNotifications'
+
 export const MainLayout: FC = () => {
 	return (
 		<Stack
@@ -38,7 +40,16 @@ export const ContentWrapper: FC<PropsWithChildren> = ({ children }) => {
 			width='100%'
 			height={`calc(100% - ${AppBarHeight + BottomBarHeight}px)`}
 		>
-			{children}
+			<NotificationsProvider
+				slotProps={{
+					snackbar: {
+						anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+					},
+				}}
+				slots={notificationsProviderSlots}
+			>
+				{children}
+			</NotificationsProvider>
 		</Box>
 	)
 }

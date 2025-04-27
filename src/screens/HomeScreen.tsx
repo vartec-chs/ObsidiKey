@@ -10,8 +10,11 @@ import { LockKeyholeIcon } from 'lucide-react'
 
 import { Logo } from '@components/Logo'
 
+import { useNotifications } from '@hooks/useNotifications'
+
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate()
+	const notifications = useNotifications()
 
 	const handleCreateStorage = () => {
 		navigate(PATHS.PASSWORD_STORAGE.CREATE)
@@ -42,7 +45,16 @@ export const HomeScreen: FC = () => {
 			</Button>
 
 			<Divider flexItem />
-			<Button fullWidth color='warning' variant='text' size='large' startIcon={<LockKeyholeIcon />}>
+			<Button
+				fullWidth
+				color='warning'
+				variant='text'
+				size='large'
+				onClick={() =>
+					notifications.show('Hello world', { severity: 'success', actionText: 'Close' })
+				}
+				startIcon={<LockKeyholeIcon />}
+			>
 				Генератор паролей
 			</Button>
 

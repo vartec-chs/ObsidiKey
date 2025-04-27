@@ -1,6 +1,7 @@
 import { INVOKE_COMMANDS } from '@config/invoke-commands'
 import { EXTENSION_FILE, EXTENSION_NAME } from '@config/main'
 import { LoadingButton } from '@ui/LoadingButton'
+import { ModTextField } from '@ui/ModTextField'
 
 import { FC, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -9,7 +10,7 @@ import { useNavigate } from 'react-router'
 
 import { save as saveDialog } from '@tauri-apps/plugin-dialog'
 
-import { IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import { IconButton, InputAdornment, Stack } from '@mui/material'
 
 import { Eye, EyeOff } from 'lucide-react'
 
@@ -81,16 +82,16 @@ export const CreatePasswordStorageForm: FC = () => {
 	return (
 		<Stack
 			width={'100%'}
-			maxHeight={'400px'}
-			sx={{
-				overflowY: 'auto',
-				overflow: 'auto',
-				'&::-webkit-scrollbar': { scrollbarWidth: 'thin' },
-				'&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(0,0,0,.1)', borderRadius: 4 },
-				'&::-webkit-scrollbar-track': { backgroundColor: 'rgba(0,0,0,.1)', borderRadius: 4 },
-				'&::-webkit-scrollbar:horizontal': { height: 4 },
-				'&::-webkit-scrollbar:vertical': { width: 4 },
-			}}
+			// maxHeight={'400px'}
+			// sx={{
+			// 	overflowY: 'auto',
+			// 	overflow: 'auto',
+			// 	'&::-webkit-scrollbar': { scrollbarWidth: 'thin' },
+			// 	'&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(0,0,0,.1)', borderRadius: 4 },
+			// 	'&::-webkit-scrollbar-track': { backgroundColor: 'rgba(0,0,0,.1)', borderRadius: 4 },
+			// 	'&::-webkit-scrollbar:horizontal': { height: 4 },
+			// 	'&::-webkit-scrollbar:vertical': { width: 4 },
+			// }}
 			component='form'
 			onSubmit={handleSubmit(onSave)}
 			gap={2}
@@ -99,13 +100,13 @@ export const CreatePasswordStorageForm: FC = () => {
 				name='name'
 				control={control}
 				render={({ field }) => (
-					<TextField
+					<ModTextField
 						{...field}
 						autoFocus
 						fullWidth
-						sx={{
-							mt: 0.6,
-						}}
+						// sx={{
+						// 	mt: 0.6,
+						// }}
 						label='Название хранилища паролей'
 						error={!!errors.name}
 						helperText={errors.name?.message}
@@ -119,7 +120,7 @@ export const CreatePasswordStorageForm: FC = () => {
 				name='description'
 				control={control}
 				render={({ field }) => (
-					<TextField
+					<ModTextField
 						{...field}
 						fullWidth
 						label='Описание хранилища паролей'
@@ -135,7 +136,7 @@ export const CreatePasswordStorageForm: FC = () => {
 				name='masterPassword'
 				control={control}
 				render={({ field: { ref, ...field } }) => (
-					<TextField
+					<ModTextField
 						{...field}
 						fullWidth
 						inputRef={ref}

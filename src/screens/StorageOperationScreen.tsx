@@ -1,3 +1,5 @@
+import { AnimatedSegmentedTabs } from '@/ui/AnimatedMuiTabs'
+import { AnimatedMuiTabs2 } from '@/ui/AnimatedMuiTabs2'
 import { PATHS } from '@config/paths'
 import { CreatePasswordStorageForm } from '@forms/CreatePasswordStorageForm'
 import { OpenPasswordStorageForm } from '@forms/OpenPasswordStorageForm'
@@ -32,9 +34,22 @@ export const StorageOperationScreen: FC = () => {
 		</SegmentedControl>
 	)
 
+	const tabs = [
+		{ id: 0, label: 'Создать', content: <CreatePasswordStorageForm /> },
+		{ id: 1, label: 'Открыть', content: <OpenPasswordStorageForm /> },
+	]
+
 	return (
-		<FormBox headerContent={header} gap={8} >
-			{mode === 'create' ? <CreatePasswordStorageForm /> : <OpenPasswordStorageForm />}
-		</FormBox>
+		<AnimatedSegmentedTabs
+			tabs={tabs}
+			defaultTab={mode === 'create' ? 0 : 1}
+			onChange={(tabId) => {
+				if (tabId === 0) {
+					navigate(PATHS.PASSWORD_STORAGE.CREATE, { replace: true })
+				} else {
+					navigate(PATHS.PASSWORD_STORAGE.OPEN, { replace: true })
+				}
+			}}
+		/>
 	)
 }

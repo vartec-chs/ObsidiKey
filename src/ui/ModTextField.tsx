@@ -86,9 +86,15 @@ export const ModTextField = forwardRef<HTMLInputElement, TextFieldProps>(
 				size='small'
 				variant='filled'
 				ref={ref}
+				slotProps={{
+					input: {
+						disableUnderline: true,
+					},
+				}}
 				InputProps={{
 					disableUnderline: true,
 					...props.InputProps,
+
 					endAdornment: inputType === 'password' ? Button : null,
 				}}
 			/>
@@ -99,6 +105,11 @@ export const ModTextField = forwardRef<HTMLInputElement, TextFieldProps>(
 				sx={{ '& .MuiFilledInput-root': { height: '3.6rem' } }}
 				variant='filled'
 				ref={ref}
+				slotProps={{
+					input: {
+						disableUnderline: true,
+					},
+				}}
 				InputProps={{
 					disableUnderline: true,
 					...props.InputProps,

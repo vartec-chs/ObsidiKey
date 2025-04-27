@@ -1,3 +1,4 @@
+import { ModTextField } from '@/ui/ModTextField'
 import { INVOKE_COMMANDS } from '@config/invoke-commands'
 import { EXTENSION_FILE, EXTENSION_NAME } from '@config/main'
 import { settingsService } from '@services/settings.service'
@@ -9,7 +10,7 @@ import { useNavigate } from 'react-router'
 
 import { open as openDialog } from '@tauri-apps/plugin-dialog'
 
-import { IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import { IconButton, InputAdornment, Stack } from '@mui/material'
 
 import { Eye, EyeOff, FileInput } from 'lucide-react'
 
@@ -104,7 +105,7 @@ export const OpenPasswordStorageForm: FC = () => {
 				name='path'
 				control={control}
 				render={({ field: { value, ...field } }) => (
-					<TextField
+					<ModTextField
 						value={value}
 						{...field}
 						fullWidth
@@ -135,7 +136,7 @@ export const OpenPasswordStorageForm: FC = () => {
 				name='masterPassword'
 				control={control}
 				render={({ field: { ref, ...field } }) => (
-					<TextField
+					<ModTextField
 						{...field}
 						fullWidth
 						inputRef={ref}
