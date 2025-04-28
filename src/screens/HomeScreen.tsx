@@ -28,6 +28,10 @@ export const HomeScreen: FC = () => {
 		navigate(PATHS.FIRST_OPEN)
 	}
 
+	const handleDashboard = () => {
+		navigate(PATHS.DASHBOARD.ROOT)
+	}
+
 	const header = (
 		<Stack direction='row' alignItems='center' justifyContent='center' gap={1}>
 			<Logo height={64} width={64} />
@@ -58,6 +62,9 @@ export const HomeScreen: FC = () => {
 				Генератор паролей
 			</Button>
 
+			<Button fullWidth variant='outlined' size='large' onClick={handleDashboard}>
+				Панель управления
+			</Button>
 			{/* <Button onClick={handleSetGlobalPassword} fullWidth color='warning' variant='text' size='large' startIcon={<LockKeyholeIcon />}>
 				Назначить глобальный пароль
 			</Button> */}

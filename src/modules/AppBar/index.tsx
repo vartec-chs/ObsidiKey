@@ -1,17 +1,21 @@
 import { AppBarHeight } from '@config/elements-size'
+import { PATHS } from '@config/paths'
 
 import { FC, useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
 import { colors, IconButton, AppBar as MuiAppBar, Stack, Tooltip, Typography } from '@mui/material'
 
-import { Maximize, Minimize, Minus, X } from 'lucide-react'
+import { HomeIcon, Maximize, Minimize, Minus, X } from 'lucide-react'
 
 import { Logo } from '@components/Logo'
 import { ThemeToggle } from '@components/ThemeToggle'
 
 export const AppBar: FC = () => {
+	const { pathname } = useLocation()
+	const navigate = useNavigate()
 	const [isFullscreen, setIsFullscreen] = useState(false)
 	const [label, setLabel] = useState('')
 
@@ -19,6 +23,7 @@ export const AppBar: FC = () => {
 	const window = appWindowRef.current
 
 	const isPasswordGenerator = window.label === 'password-generator'
+	const isDashboard = pathname.includes(PATHS.DASHBOARD.ROOT)
 
 	const toggleFullscreen = async () => {
 		await window.setFullscreen(!isFullscreen)
@@ -32,6 +37,10 @@ export const AppBar: FC = () => {
 	}
 	const minimizeWindow = async () => {
 		await window.minimize()
+	}
+
+	const goHome = async () => {
+		navigate(PATHS.HOME, { replace: true })
 	}
 
 	useEffect(() => {
@@ -83,6 +92,14 @@ export const AppBar: FC = () => {
 					</Typography>
 				</Stack>
 				<Stack direction='row' alignItems='center' gap={1}>
+					{isDashboard && (
+						<Tooltip title='Главная'>
+							<IconButton onClick={goHome} size='small'>
+								<HomeIcon size={16} />
+							</IconButton>
+						</Tooltip>
+					)}
+
 					<ThemeToggle size={16} />
 
 					<Tooltip title='Свернуть'>

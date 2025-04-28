@@ -93,7 +93,7 @@ export const AnimationLayout: FC = () => {
 	const isDisabled = false
 	if (isDisabled) return <Outlet />
 	// Можно выбрать разные варианты анимации в зависимости от условий
-	const selectedVariants = pageVariantsWave // Замените на другие варианты для теста
+	const selectedVariants = pageVariantsCurtain // Замените на другие варианты для теста
 	return (
 		<AnimatePresence mode='wait' key={pathname}>
 			<MotionMuiBox

@@ -4,7 +4,10 @@ const FILE_NAME = 'settings.json'
 
 enum SettingsKeys {
 	DB_PATH = 'db_path',
+	THEME = 'theme',
 }
+
+type Theme = 'light' | 'dark'
 
 class SettingsService {
 	private store: Store | undefined = undefined
@@ -41,6 +44,13 @@ class SettingsService {
 
 	public async setDbPath(value: string): Promise<void> {
 		await this.set(SettingsKeys.DB_PATH, value)
+	}
+
+	public async getTheme(): Promise<Theme | null> {
+		return this.get(SettingsKeys.THEME)
+	}
+	public async setTheme(value: Theme): Promise<void> {
+		await this.set(SettingsKeys.THEME, value)
 	}
 }
 

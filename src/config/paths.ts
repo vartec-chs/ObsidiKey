@@ -6,4 +6,9 @@ export const PATHS = {
 		CREATE: '/password-storage?mode=create',
 		OPEN: '/password-storage?mode=open',
 	},
+	DASHBOARD: {
+		ROOT: '/dashboard',
+		CREATE: '/dashboard?mode=create',
+		OPEN: '/dashboard?mode=open',
+	},
 }
