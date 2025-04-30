@@ -1,8 +1,15 @@
+import { DashboardList } from '@modules/DashboardList'
+import { DashboardViewing } from '@modules/DashboardViewing'
+
 import { FC } from 'react'
 
-import { Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 
 export const DashboardScreen: FC = () => {
-	console.log('DashboardScreen')
-	return <Typography variant='h4'>Панель управления</Typography>
+	return (
+		<Stack direction='row' height='100%'>
+			<DashboardList />
+			<DashboardViewing />
+		</Stack>
+	)
 }
