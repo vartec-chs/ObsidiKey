@@ -1,19 +1,10 @@
 // import { CategoryModal } from '@modules'
 import { BASE_FILTER } from '@config/dashboard'
+import { CategoryModal } from '@modules/CategoryModal'
 
 import { type FC } from 'react'
 
-import {
-	Box,
-	Divider,
-	IconButton,
-	List,
-	ListItemButton,
-	ListItemText,
-	ListSubheader,
-	Stack,
-	Typography,
-} from '@mui/material'
+import { Box, Divider, List, Stack, Typography } from '@mui/material'
 
 import { FoldersIcon, Plus, User2 } from 'lucide-react'
 
@@ -21,6 +12,8 @@ import { ListItem } from './ListItem'
 
 export const CategoryList: FC = () => {
 	const categories = Array.from({ length: 10 })
+
+	console.log('rerender list')
 
 	return (
 		<Stack sx={{ width: '100%', overflow: 'hidden', height: '50%', pr: 0.2 }} gap={1}>
@@ -33,7 +26,7 @@ export const CategoryList: FC = () => {
 				{/* <IconButton size='small'>
 					<Plus size={20} />
 				</IconButton> */}
-				{/* <CategoryModal /> */}
+				<CategoryModal />
 			</Stack>
 			<Box
 				sx={(theme) => ({
@@ -59,7 +52,7 @@ export const CategoryList: FC = () => {
 					},
 				})}
 			>
-				<List sx={{ width: '100%', overflow: 'hidden', pr: 0.2 }}>
+				<List sx={{ width: '100%', overflow: 'hidden', pr: 0.2, position: 'relative' }}>
 					{Object.entries(BASE_FILTER).map(([key, value]) => (
 						<ListItem
 							index={Number(key)}

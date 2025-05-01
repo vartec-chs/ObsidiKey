@@ -13,7 +13,7 @@ type InvokeArgs = {
 	[key: string]: any
 }
 
-type InvokeError<T = unknown> = ApiResult<T> | string
+type InvokeError<T = unknown> = ApiResult<T>
 
 interface UseInvoke<Return, Params extends InvokeArgs = {}> {
 	command: string

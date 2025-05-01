@@ -1,3 +1,4 @@
+import { bottomBarZindex } from '@/config/theme'
 import { BottomBarHeight } from '@config/elements-size'
 
 import { FC } from 'react'
@@ -13,6 +14,7 @@ export const BottomBar: FC = () => {
 			width='100%'
 			sx={(theme) => ({
 				borderRadius: 0,
+				zIndex: bottomBarZindex,
 				px: 0.5,
 				py: 0.5,
 				width: '100%',

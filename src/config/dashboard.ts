@@ -1,5 +1,4 @@
 // import { ResizeCondition } from '@/hooks'
-
 import { HomeIcon, KeyRoundIcon, NotebookIcon, SquareAsteriskIcon, StarIcon } from 'lucide-react'
 
 type BASE = {
@@ -25,17 +24,17 @@ export enum STORAGE_NAME {
 
 export const STORAGE_TYPE: Record<string, { disabled: boolean } & BASE> = {
 	PASSWORDS: {
-		name: 'Passwords',
+		name: 'Пароли',
 		icon: SquareAsteriskIcon,
 		disabled: false,
 	},
 	AUTHENTICATION: {
-		name: 'Authentication',
+		name: 'Аутентификаторы',
 		icon: KeyRoundIcon,
 		disabled: false,
 	},
 	NOTES: {
-		name: 'Notes',
+		name: 'Записки',
 		icon: NotebookIcon,
 		disabled: true,
 	},

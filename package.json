@@ -15,6 +15,7 @@
     "@fontsource/rubik": "^5.2.5",
     "@hookform/resolvers": "^5.0.1",
     "@mui/material": "^7.0.2",
+    "@mui/x-data-grid-premium": "^8.1.0",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-clipboard-manager": "~2",
     "@tauri-apps/plugin-dialog": "~2",
@@ -46,6 +47,6 @@
     "prettier": "^3.5.3",
     "react-devtools": "^6.1.1",
     "typescript": "~5.8.3",
-    "vite": "^6.3.3"
+    "vite": "^6.3.4"
   }
 }

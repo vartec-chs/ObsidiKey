@@ -1,4 +1,6 @@
 // import { TagModal } from '@modules'
+import { TagModal } from '@modules/TagModal'
+
 import { type FC } from 'react'
 
 import { Box, List, Stack, Typography } from '@mui/material'
@@ -18,7 +20,7 @@ export const TagsList: FC = () => {
 					<Typography variant='body2'>Теги:</Typography>
 				</Stack>
 
-				{/* <TagModal /> */}
+				<TagModal />
 			</Stack>
 			<Box
 				sx={(theme) => ({

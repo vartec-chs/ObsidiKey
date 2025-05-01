@@ -1,12 +1,11 @@
-import { DrawerContent, Main } from '@modules/DashboardDrawer'
-import { DrawerToggleButton } from '@modules/DashboardDrawer/components/DrawerToggleButton'
+import { DashboardSidebar, Main } from '@/modules/DashboardSidebar'
 
 import { FC, useState } from 'react'
 import { Outlet } from 'react-router'
 
-import { Box, Drawer } from '@mui/material'
+import { Box } from '@mui/material'
 
-export const drawerWidth = 250
+export const drawerWidth = 260
 
 export const DashboardLayout: FC = () => {
 	const [open, setOpen] = useState(false)
@@ -22,30 +21,12 @@ export const DashboardLayout: FC = () => {
 
 	return (
 		<Box sx={{ display: 'flex', position: 'relative', height: '100%' }}>
-			<DrawerToggleButton isOpen={open} isStatic={isStatic} onClick={handleDrawerOpen} />
-			<Drawer
-				sx={(theme) => ({
-					position: 'relative',
-					width: drawerWidth,
-					flexShrink: 0,
-
-					'& .MuiDrawer-paper': {
-						position: 'relative',
-						padding: theme.spacing(1),
-						display: 'flex',
-						flexDirection: 'column',
-						gap: theme.spacing(1),
-						width: drawerWidth,
-						boxSizing: 'border-box',
-						borderRight: `2px solid ${theme.palette.divider}`,
-					},
-				})}
-				variant={isStatic ? 'permanent' : 'persistent'}
-				anchor='left'
+			<DashboardSidebar
+				handleDrawerOpen={handleDrawerOpen}
 				open={open}
-			>
-				<DrawerContent isStatic={isStatic} onClose={handleDrawerClose} />
-			</Drawer>
+				isStatic={isStatic}
+				onClose={handleDrawerClose}
+			/>
 			<Main open={open || isStatic}>
 				<Outlet />
 			</Main>

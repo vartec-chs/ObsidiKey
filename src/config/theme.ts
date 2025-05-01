@@ -33,12 +33,29 @@ const scrollBar = (theme: CssVarsTheme) => {
 	}
 }
 
+const colors = {
+	primary: '#005BFF',
+	secondary: '#ffaa12',
+	warning: '#ffa800',
+	info: '#00a2ff',
+	success: '#00be6c',
+	green: '#00BE6C',
+	magenta: '#F1117E',
+	orange: '#FFA800',
+	dark: '#001A34',
+	light: '#F2F2F2',
+	blue: '#00A2FF',
+	gray: '#F1F1F1',
+	ghost: '#F9F9F9',
+}
+
 const components: Components<CssVarsTheme> = {
 	MuiCssBaseline: {
 		styleOverrides: (theme: CssVarsTheme) => ({
 			body: {
 				...scrollBar(theme),
 				overflow: 'hidden',
+				// background: theme.palette.mode === 'dark' ? colors.dark : colors.light, // Цвет при наведении
 			},
 		}),
 	},
@@ -63,21 +80,7 @@ const components: Components<CssVarsTheme> = {
 		},
 	},
 }
-const colors = {
-	primary: '#005BFF',
-	secondary: '#ffaa12',
-	warning: '#ffa800',
-	info: '#00a2ff',
-	success: '#00be6c',
-	green: '#00BE6C',
-	magenta: '#F1117E',
-	orange: '#FFA800',
-	dark: '#001A34',
-	light: '#F2F2F2',
-	blue: '#00A2FF',
-	gray: '#F1F1F1',
-	ghost: '#F9F9F9',
-}
+
 // const typography: TypographyVariantsOptions = {
 // 	fontFamily: '"Rubik","Roboto", "Helvetica", "Arial", sans-serif',
 // }
@@ -132,6 +135,9 @@ const zIndex: Theme['zIndex'] = {
 	appBar: 1500,
 	tooltip: 1500,
 }
+
+export const appBarZindex = 2000
+export const bottomBarZindex = 2000
 
 export const darkTheme: Theme = createTheme({
 	palette: {

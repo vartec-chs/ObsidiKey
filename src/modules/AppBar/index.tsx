@@ -12,6 +12,7 @@ import { HomeIcon, Maximize, Minimize, Minus, X } from 'lucide-react'
 
 import { Logo } from '@components/Logo'
 import { ThemeToggle } from '@components/ThemeToggle'
+import { appBarZindex } from '@/config/theme'
 
 export const AppBar: FC = () => {
 	const { pathname } = useLocation()
@@ -61,6 +62,7 @@ export const AppBar: FC = () => {
 			data-tauri-drag-region
 			sx={(theme) => ({
 				// background: 'transparent',
+				zIndex: appBarZindex,
 				borderRadius: 0,
 				px: 0.5,
 				py: 0.5,
