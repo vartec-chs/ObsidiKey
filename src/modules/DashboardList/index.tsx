@@ -13,7 +13,7 @@ export const DashboardList: FC = () => {
 	console.log('Dashboard rerendered')
 	return (
 		<DashboardPaper
-			side='left'
+			// side='left'
 			sx={{
 				display: 'flex',
 				alignItems: 'center',

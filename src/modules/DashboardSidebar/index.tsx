@@ -4,8 +4,6 @@ import { Box, Divider, Drawer, IconButton, Portal, styled, useTheme } from '@mui
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
-import { drawerWidth } from '@layouts/DashboardLayout'
-
 import { useSidebar } from '@providers/SidebarProvider'
 
 import { CategoryList } from './components/CategoryList'
@@ -16,7 +14,10 @@ export { DrawerToggleButton } from './components/DrawerToggleButton'
 
 const MainBox = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 	open?: boolean
-}>(({ theme }) => ({
+	openRightbar?: boolean
+	drawerWidth?: number
+	rightbarWidth?: number
+}>(({ theme, rightbarWidth, drawerWidth }) => ({
 	flexGrow: 1,
 	height: '100%',
 	transition: theme.transitions.create('margin', {
@@ -24,6 +25,7 @@ const MainBox = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
 		duration: theme.transitions.duration.leavingScreen,
 	}),
 	marginLeft: `-${drawerWidth}px`,
+	marginRight: `-${rightbarWidth}px`,
 	variants: [
 		{
 			props: ({ open }) => open,
@@ -35,14 +37,38 @@ const MainBox = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
 				marginLeft: 0,
 			},
 		},
+		{
+			props: ({ openRightbar }) => openRightbar,
+			style: {
+				transition: theme.transitions.create('margin', {
+					easing: theme.transitions.easing.easeOut,
+					duration: theme.transitions.duration.enteringScreen,
+				}),
+				marginRight: 0,
+			},
+		},
+		{
+			props: ({ open, openRightbar }) => open && openRightbar,
+			style: {
+				marginLeft: 0,
+				marginRight: 0,
+			},
+		},
 	],
 }))
 
 export const Main: FC<PropsWithChildren> = ({ children }) => {
-	const { isStatic } = useSidebar()
+	const { isStatic, isStaticRightbar, isOpenRightbar, width } = useSidebar()
+	console.log('Main', { isStatic, isStaticRightbar, isOpenRightbar, width })
 
 	return (
-		<MainBox open={isStatic} sx={{ display: 'flex', flexDirection: 'column' }}>
+		<MainBox
+			open={isStatic}
+			openRightbar={isStaticRightbar || isOpenRightbar}
+			drawerWidth={width.sidebar}
+			rightbarWidth={width.rightbar}
+			sx={{ display: 'flex', flexDirection: 'column' }}
+		>
 			{children}
 		</MainBox>
 	)
@@ -57,7 +83,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 export const DashboardSidebar: FC = memo(() => {
-	const { isOpen, isStatic, toggleSidebar } = useSidebar()
+	const { isOpen, isStatic, toggleSidebar, width } = useSidebar()
 
 	const isDrawerOpen = isStatic || isOpen
 
@@ -65,7 +91,7 @@ export const DashboardSidebar: FC = memo(() => {
 		<Drawer
 			sx={(theme) => ({
 				position: 'relative',
-				width: drawerWidth,
+				width: width.sidebar,
 				flexShrink: 0,
 				'& .MuiDrawer-paper': {
 					position: 'relative',
@@ -73,7 +99,7 @@ export const DashboardSidebar: FC = memo(() => {
 					display: 'flex',
 					flexDirection: 'column',
 					gap: theme.spacing(0.5),
-					width: drawerWidth,
+					width: width.sidebar,
 					boxSizing: 'border-box',
 					borderRight: `2px solid ${theme.palette.divider}`,
 				},
@@ -86,11 +112,7 @@ export const DashboardSidebar: FC = memo(() => {
 				<SelectStorageMode />
 				{!isStatic && (
 					<IconButton size='small' onClick={toggleSidebar}>
-						{/* {theme.direction === 'ltr' ? ( */}
 						<ChevronLeftIcon size={22} />
-						{/* ) : ( */}
-						{/* <ChevronRightIcon size={22} /> */}
-						{/* )} */}
 					</IconButton>
 				)}
 			</DrawerHeader>

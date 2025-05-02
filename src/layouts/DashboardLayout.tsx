@@ -1,3 +1,4 @@
+import { DashboardRightbar } from '@modules/DashboardRightbar'
 import { DashboardSidebar, Main } from '@modules/DashboardSidebar'
 
 import type { FC } from 'react'
@@ -18,6 +19,7 @@ export const DashboardLayout: FC = () => {
 				<Main>
 					<Outlet />
 				</Main>
+				<DashboardRightbar />
 			</Box>
 		</SidebarProvider>
 	)

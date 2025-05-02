@@ -9,7 +9,7 @@ export const DashboardScreen: FC = () => {
 	return (
 		<Stack direction='row' height='100%'>
 			<DashboardList />
-			<DashboardViewing />
+			{/* <DashboardViewing /> */}
 		</Stack>
 	)
 }

@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+	createContext,
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useState,
+} from 'react'
 
 import { Box, Portal } from '@mui/material'
 
@@ -7,31 +15,79 @@ import { useWindowResizeContext } from './WindowResizeProvider'
 interface SidebarContextType {
 	isOpen: boolean
 	isStatic: boolean
+	isOpenRightbar: boolean
+	isStaticRightbar: boolean
+	width: { sidebar: number; rightbar: number }
 	toggleSidebar: () => void
+	toggleRightbar: () => void
+	setWidth: Dispatch<SetStateAction<{ sidebar: number; rightbar: number }>>
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
 export const SidebarProvider = ({ children }: { children: React.ReactNode }) => {
-	const { matchMap } = useWindowResizeContext()
-	const sidebarFixed = matchMap.tablet
+	const { matchMap, width: windowWidth } = useWindowResizeContext()
+	console.log('SidebarProvider', { matchMap, windowWidth })
+	const sidebarFixed = matchMap['desktop']
+	const rightbarFixed = matchMap['tablet']
 	const [isOpen, setIsOpen] = useState(false)
+	const [isOpenRightbar, setIsOpenRightbar] = useState(false)
+	const [width, setWidth] = useState<{ sidebar: number; rightbar: number }>({
+		sidebar: 250,
+		rightbar: (windowWidth || 250) / 2.5,
+	})
+	const [isStaticRightbar, setIsStaticRightbar] = useState(false)
 	const [isStatic, setIsStatic] = useState(false)
 
 	const toggleSidebar = () => {
 		setIsOpen((prev) => !prev)
 	}
 
-	useEffect(() => {
+	const toggleRightbar = () => {
+		setIsOpenRightbar((prev) => !prev)
+	}
+
+	useLayoutEffect(() => {
 		setIsStatic(sidebarFixed)
-		setIsOpen(sidebarFixed) // Close the sidebar when the screen size changes
-		// Logic to determine if the sidebar should be static
-	}, [sidebarFixed])
+		setIsStaticRightbar(rightbarFixed)
+		setIsOpen(sidebarFixed)
+		setIsOpenRightbar(rightbarFixed)
+	}, [sidebarFixed, rightbarFixed])
+
+	useLayoutEffect(() => {
+		if (sidebarFixed && isOpenRightbar) {
+			setIsOpen(false)
+			setIsStatic(false)
+		} else {
+			setIsOpen(true)
+			setIsStatic(true)
+		}
+	}, [isOpenRightbar])
+
+	useLayoutEffect(() => {
+		if (windowWidth) {
+			const sidebar = windowWidth >= 1200 ? windowWidth / 4.5 : 260
+			const rightbar = windowWidth >= 1200 ? windowWidth / 3 : 400
+			if (windowWidth >= 1000) {
+				setIsStaticRightbar(true)
+				setIsStatic(true)
+			}
+			setWidth({
+				sidebar: sidebar,
+				rightbar: windowWidth <= 1000 ? 350 : rightbar,
+			})
+		}
+	}, [windowWidth])
 
 	const contextValue = {
 		isOpen,
 		isStatic,
 		toggleSidebar,
+		isOpenRightbar,
+		isStaticRightbar,
+		toggleRightbar,
+		width,
+		setWidth,
 	}
 
 	return (

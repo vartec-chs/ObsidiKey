@@ -5,6 +5,7 @@ import { ResizeCondition, useWindowResize } from '@hooks/useWindowResize'
 
 const MATCHES: ResizeCondition[] = [
 	{ id: 'mobile', match: ({ width }) => width < 600 },
+	{ id: 'desktop', match: ({ width }) => width >= 600 && width < 900 },
 	{ id: 'tablet', match: ({ width }) => width >= 900 },
 ]
 

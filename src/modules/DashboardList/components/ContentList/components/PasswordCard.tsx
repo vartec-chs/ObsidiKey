@@ -1,4 +1,5 @@
 // import { useDashboardStore } from '@store'
+import { useSidebar } from '@/providers/SidebarProvider'
 
 import { type FC, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
@@ -31,6 +32,7 @@ const MotionCard = motion(Card)
 export const PasswordCard: FC<PasswordCardProps> = ({ id }) => {
 	// const theme = useTheme()
 	const refPaper = useRef<HTMLDivElement>(null)
+	const { toggleRightbar } = useSidebar()
 	const [open, setOpen] = useState(false)
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
@@ -43,6 +45,7 @@ export const PasswordCard: FC<PasswordCardProps> = ({ id }) => {
 	const isFavorite = true
 
 	const openPassword = () => {
+		toggleRightbar()
 		// if (id !== currentCardId) {
 		// 	setCurrentCardId(id)
 		// }
