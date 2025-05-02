@@ -40,6 +40,7 @@
 			"@modules/*": ["src/modules/*"],
 			"@layouts/*": ["src/layouts/*"],
 			"@hooks/*": ["src/hooks/*"],
+			"@hooks": ["src/hooks"],
 			"@ui/*": ["src/ui/*"],
 			"@forms/*": ["src/forms/*"]
 		}

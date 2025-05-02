@@ -102,7 +102,7 @@ export const CategoryModal = () => {
 				<PlusIcon size={20} />
 			</IconButton>
 			<Dialog
-				maxWidth={'sm'}
+				maxWidth={'xs'}
 				fullWidth
 				open={open}
 				onClose={handleClose}

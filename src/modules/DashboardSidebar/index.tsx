@@ -1,22 +1,24 @@
-import { FC } from 'react'
+import { FC, memo, PropsWithChildren, useCallback } from 'react'
 
-import { Divider, Drawer, IconButton, styled, useTheme } from '@mui/material'
+import { Box, Divider, Drawer, IconButton, Portal, styled, useTheme } from '@mui/material'
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 import { drawerWidth } from '@layouts/DashboardLayout'
 
+import { useSidebar } from '@providers/SidebarProvider'
+
 import { CategoryList } from './components/CategoryList'
-import { DrawerToggleButton } from './components/DrawerToggleButton'
 import { SelectStorageMode } from './components/SelectStorageMode'
 import { TagsList } from './components/TagsList'
 
-export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+export { DrawerToggleButton } from './components/DrawerToggleButton'
+
+const MainBox = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 	open?: boolean
 }>(({ theme }) => ({
 	flexGrow: 1,
 	height: '100%',
-	// padding: theme.spacing(),
 	transition: theme.transitions.create('margin', {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -36,79 +38,74 @@ export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open
 	],
 }))
 
+export const Main: FC<PropsWithChildren> = ({ children }) => {
+	const { isStatic } = useSidebar()
+
+	return (
+		<MainBox open={isStatic} sx={{ display: 'flex', flexDirection: 'column' }}>
+			{children}
+		</MainBox>
+	)
+}
+
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
 	gap: 0,
 	padding: theme.spacing(0, 0),
-	// ...theme.mixins.toolbar,
 	justifyContent: 'space-between',
 }))
 
-interface DashboardSidebarProps {
-	isStatic: boolean
-	onClose: () => void
-	open: boolean
-	handleDrawerOpen: () => void
-}
+export const DashboardSidebar: FC = memo(() => {
+	const { isOpen, isStatic, toggleSidebar } = useSidebar()
 
-export const DashboardSidebar: FC<DashboardSidebarProps> = ({
-	isStatic,
-	onClose,
-	open,
-	handleDrawerOpen,
-}) => {
-	const theme = useTheme()
+	const isDrawerOpen = isStatic || isOpen
 
 	return (
-		<>
-			<DrawerToggleButton isOpen={open} isStatic={isStatic} onClick={handleDrawerOpen} />
-			<Drawer
-				sx={(theme) => ({
+		<Drawer
+			sx={(theme) => ({
+				position: 'relative',
+				width: drawerWidth,
+				flexShrink: 0,
+				'& .MuiDrawer-paper': {
 					position: 'relative',
+					padding: theme.spacing(0.5, 1),
+					display: 'flex',
+					flexDirection: 'column',
+					gap: theme.spacing(0.5),
 					width: drawerWidth,
-					flexShrink: 0,
-
-					'& .MuiDrawer-paper': {
-						position: 'relative',
-						padding: theme.spacing(0.5, 1),
-						display: 'flex',
-						flexDirection: 'column',
-						gap: theme.spacing(0.5),
-						width: drawerWidth,
-						boxSizing: 'border-box',
-						borderRight: `2px solid ${theme.palette.divider}`,
-					},
+					boxSizing: 'border-box',
+					borderRight: `2px solid ${theme.palette.divider}`,
+				},
+			})}
+			variant={isStatic ? 'permanent' : 'persistent'}
+			anchor='left'
+			open={isDrawerOpen}
+		>
+			<DrawerHeader>
+				<SelectStorageMode />
+				{!isStatic && (
+					<IconButton size='small' onClick={toggleSidebar}>
+						{/* {theme.direction === 'ltr' ? ( */}
+						<ChevronLeftIcon size={22} />
+						{/* ) : ( */}
+						{/* <ChevronRightIcon size={22} /> */}
+						{/* )} */}
+					</IconButton>
+				)}
+			</DrawerHeader>
+			<Divider
+				sx={(theme) => ({
+					border: `0.5px solid ${theme.palette.divider}`,
 				})}
-				variant={isStatic ? 'permanent' : 'persistent'}
-				anchor='left'
-				open={open}
-			>
-				<DrawerHeader>
-					<SelectStorageMode />
-					{!isStatic && (
-						<IconButton size='small' onClick={onClose}>
-							{theme.direction === 'ltr' ? (
-								<ChevronLeftIcon size={22} />
-							) : (
-								<ChevronRightIcon size={22} />
-							)}
-						</IconButton>
-					)}
-				</DrawerHeader>
-				<Divider
-					sx={(theme) => ({
-						border: `0.5px solid ${theme.palette.divider}`,
-					})}
-				/>
-				<CategoryList />
-				<Divider
-					sx={(theme) => ({
-						border: `0.5px solid ${theme.palette.divider}`,
-					})}
-				/>
-				<TagsList />
-			</Drawer>
-		</>
+			/>
+			<CategoryList />
+			<Divider
+				sx={(theme) => ({
+					border: `0.5px solid ${theme.palette.divider}`,
+				})}
+			/>
+			<TagsList />
+		</Drawer>
 	)
-}
+})
