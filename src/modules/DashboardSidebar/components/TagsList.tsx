@@ -13,7 +13,7 @@ export const TagsList: FC = () => {
 	const tags = Array.from({ length: 10 })
 
 	return (
-		<Stack sx={{ width: '100%', overflow: 'hidden', height: '50%', pr: 0.2 }} gap={1}>
+		<Stack sx={{ width: '100%', overflow: 'hidden', height: '50%', pr: 0 }} gap={1}>
 			<Stack direction='row' alignItems='center' gap={1} justifyContent='space-between'>
 				<Stack direction='row' alignItems='center' gap={1}>
 					<TagIcon size={20} />
@@ -44,7 +44,7 @@ export const TagsList: FC = () => {
 					},
 				})}
 			>
-				<List sx={{ width: '100%', overflow: 'hidden', pr: 0.2 }}>
+				<List sx={{ width: '100%', overflow: 'hidden', pr: 0.3 }}>
 					{tags.map((_, index) => (
 						<ListItem index={index} isEnd={index === 1} title='Tag' />
 					))}

@@ -3,6 +3,7 @@ import { FormBox } from '@ui/FormBox'
 
 import type { FC } from 'react'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
 
 import { Button, Divider, Stack, Typography } from '@mui/material'
 
@@ -14,7 +15,6 @@ import { useNotifications } from '@hooks/useNotifications'
 
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate()
-	const notifications = useNotifications()
 
 	const handleCreateStorage = () => {
 		navigate(PATHS.PASSWORD_STORAGE.CREATE)
@@ -54,9 +54,7 @@ export const HomeScreen: FC = () => {
 				color='warning'
 				variant='text'
 				size='large'
-				onClick={() =>
-					notifications.show('Hello world', { severity: 'success', actionText: 'Close' })
-				}
+				onClick={() => toast.info('Создайте хранилище паролей, чтобы воспользоваться генератором')}
 				startIcon={<LockKeyholeIcon />}
 			>
 				Генератор паролей

@@ -16,7 +16,7 @@ export const CategoryList: FC = () => {
 	console.log('rerender list')
 
 	return (
-		<Stack sx={{ width: '100%', overflow: 'hidden', height: '50%', pr: 0.2 }} gap={1}>
+		<Stack sx={{ width: '100%', overflow: 'hidden', height: '50%', pr: 0 }} gap={1}>
 			<Stack direction='row' alignItems='center' gap={1} justifyContent='space-between'>
 				<Stack direction='row' alignItems='center' gap={1}>
 					<FoldersIcon size={20} />

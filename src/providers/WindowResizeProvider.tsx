@@ -1,4 +1,3 @@
-// contexts/WindowResizeContext.tsx
 import { createContext, FC, PropsWithChildren, useContext } from 'react'
 
 import { ResizeCondition, useWindowResize } from '@hooks/useWindowResize'

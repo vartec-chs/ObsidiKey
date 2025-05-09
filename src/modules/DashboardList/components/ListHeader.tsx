@@ -22,7 +22,7 @@ export const ListHeader: FC = () => {
 			gap={0.5}
 			pt={1}
 			px={0.5}
-			pl={2}
+			
 			// border={1}
 		>
 			<DrawerToggleButton />

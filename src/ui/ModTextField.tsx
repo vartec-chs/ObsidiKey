@@ -17,7 +17,7 @@ const ModernTextField = styled((props: TextFieldProps) => (
 ))(({ theme }) => ({
 	'& .MuiFilledInput-root': {
 		overflow: 'hidden',
-		borderRadius: theme.spacing(1),
+		borderRadius: theme.shape.borderRadius,
 
 		border: `1px solid ${theme.palette.mode === 'light' ? alpha(grey[900], 0.1) : alpha(grey[900], 0.4)}`,
 		transition: theme.transitions.create(['border-color', 'background-color', 'box-shadow']),

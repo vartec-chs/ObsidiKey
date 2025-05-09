@@ -24,6 +24,7 @@ export const DrawerToggleButton: FC = () => {
 					animate={{ opacity: 1, scale: 1, x: 0 }}
 					exit={{ opacity: 0, scale: 0.8, x: -5 }}
 					transition={{ duration: 0.2 }}
+					style={{paddingLeft: 12}}
 
 					// style={{ position: 'absolute', top: 5, left: 15, zIndex: 1000 }}
 				>
