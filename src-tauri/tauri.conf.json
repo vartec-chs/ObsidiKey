@@ -20,7 +20,7 @@
 				"resizable": true,
 			
 				"minHeight": 600,
-				"minWidth": 800,
+				"minWidth": 650,
 				"focus": true,
 				"alwaysOnTop": false,
 				"center": true,

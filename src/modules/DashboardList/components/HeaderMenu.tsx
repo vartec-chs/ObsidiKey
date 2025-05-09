@@ -24,9 +24,10 @@ export const HeaderMenu: React.FC = () => {
 				aria-controls={open ? 'basic-menu' : undefined}
 				aria-haspopup='true'
 				aria-expanded={open ? 'true' : undefined}
+				
 				onClick={handleClick}
 			>
-				<EllipsisVertical size={24} />
+				<EllipsisVertical size={20} />
 			</IconButton>
 			<Menu
 				id='basic-menu'

@@ -8,7 +8,8 @@ interface ListItemProps extends ListItemButtonProps {
 	icon?: ReactNode
 	title: string
 	onClick?: () => void
-	selected?: boolean,
+	selected?: boolean
+
 	// isBase?: boolean
 }
 
@@ -19,19 +20,19 @@ export const ListItem: FC<ListItemProps> = ({
 	title,
 	onClick,
 	selected,
+
 	// isBase,
 	...props
 }) => {
 	return (
 		<ListItemButton
-			sx={(_) => ({
-			
+			sx={(theme) => ({
 				borderRadius: 1,
+
 				py: 0.5,
 				px: 1,
 				mt: index === 0 ? 0.3 : 0,
 				mb: isEnd ? 0 : 0.3,
-				
 			})}
 			{...props}
 			selected={selected}

@@ -1,5 +1,12 @@
 // import { ResizeCondition } from '@/hooks'
-import { HomeIcon, KeyRoundIcon, NotebookIcon, SquareAsteriskIcon, StarIcon } from 'lucide-react'
+import {
+	HomeIcon,
+	KeyRoundIcon,
+	NotebookIcon,
+	SquareAsteriskIcon,
+	StarIcon,
+	Trash2Icon,
+} from 'lucide-react'
 
 type BASE = {
 	name: string
@@ -14,6 +21,10 @@ export const BASE_FILTER: Record<string, BASE> = {
 	FAVORITE: {
 		name: 'Favorite',
 		icon: StarIcon,
+	},
+	TRASH: {
+		name: 'Trash',
+		icon: Trash2Icon,
 	},
 }
 export enum STORAGE_NAME {

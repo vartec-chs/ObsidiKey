@@ -1,8 +1,9 @@
 import { STORAGE_TYPE } from '@config/dashboard'
+import { motion } from 'framer-motion'
 
 import * as React from 'react'
 
-import { Box } from '@mui/material'
+import { Box, colors } from '@mui/material'
 import Button from '@mui/material/Button'
 import Menu, { MenuProps } from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -71,11 +72,22 @@ export function SelectStorageMode() {
 				disableElevation
 				onClick={handleClick}
 				fullWidth
-				variant='text'
+				variant='contained'
 				color='inherit'
-				// size='small'
+				size='small'
+				sx={(theme) => ({
+					backgroundColor: theme.palette.mode === 'dark' ? colors.grey[900] : colors.grey[100],
+				})}
 				startIcon={<select.icon size={20} />}
-				endIcon={<ArrowDown size={20} />}
+				endIcon={
+					<motion.div
+						transition={{ duration: 0.3 }}
+						animate={{ rotate: open ? 180 : 0 }}
+						style={{ display: 'flex', alignItems: 'center', gap: 1 }}
+					>
+						<ArrowDown size={20} />
+					</motion.div>
+				}
 			>
 				{select.name}
 			</Button>
