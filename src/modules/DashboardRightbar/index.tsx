@@ -15,6 +15,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 import { useSidebar } from '@providers/SidebarProvider'
 
+import { DashboardViewing } from './DashboardViewing'
+
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
@@ -24,9 +26,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 export const DashboardRightbar: FC = memo(() => {
-	const { isOpenRightbar, isStaticRightbar, toggleRightbar, width } = useSidebar()
+	const { isOpenRightbar, isStaticRightbar, width } = useSidebar()
 
-	const isDrawerOpen = isStaticRightbar || isOpenRightbar
+	
+	const isDrawerOpen = useCallback(
+		() => isStaticRightbar || isOpenRightbar,
+		[isStaticRightbar, isOpenRightbar],
+	)
 
 	console.log('DashboardRightbar', { isOpenRightbar, isStaticRightbar, width })
 
@@ -34,7 +40,7 @@ export const DashboardRightbar: FC = memo(() => {
 		<Drawer
 			sx={(theme) => ({
 				position: 'relative',
-				zIndex: isDrawerOpen ? 800 : -10,
+				zIndex: isDrawerOpen() ? 800 : -10,
 				width: width.rightbar,
 				flexShrink: 0,
 				'& .MuiDrawer-paper': {
@@ -50,18 +56,10 @@ export const DashboardRightbar: FC = memo(() => {
 			})}
 			variant={isStaticRightbar ? 'permanent' : 'persistent'}
 			anchor='right'
-			open={isDrawerOpen}
+			open={isDrawerOpen()}
 		>
-			<DrawerHeader>
-				{!isStaticRightbar && (
-					<IconButton size='small' onClick={toggleRightbar}>
-						<ChevronRightIcon size={22} />
-					</IconButton>
-				)}
-			</DrawerHeader>
-			<Typography textAlign={'center'} variant='h6' component='div'>
-				Rightbar
-			</Typography>
+		
+			<DashboardViewing />
 		</Drawer>
 	)
 })

@@ -8,7 +8,7 @@ import {
 
 // import { colors as muiColors } from '@mui/material'
 
-const scrollBar = (theme: CssVarsTheme) => {
+export const scrollBar = (theme: CssVarsTheme | Theme) => {
 	return {
 		overflow: 'auto',
 		// backgroundColor: theme.palette.mode === 'dark' ? muiColors.grey[900] : muiColors.grey[100],
@@ -71,6 +71,7 @@ const components: Components<CssVarsTheme> = {
 			root: ({ theme }: { theme: CssVarsTheme }) => scrollBar(theme), // Используем theme из ownerState
 		},
 	},
+
 
 	MuiButton: {
 		styleOverrides: {

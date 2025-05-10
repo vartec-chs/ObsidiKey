@@ -1,5 +1,5 @@
 import { DashboardList } from '@modules/DashboardList'
-import { DashboardViewing } from '@modules/DashboardViewing'
+import { DashboardViewing } from '@/modules/DashboardRightbar/DashboardViewing'
 
 import { FC } from 'react'
 

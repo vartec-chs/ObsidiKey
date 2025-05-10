@@ -32,7 +32,7 @@ const MotionCard = motion(Card)
 export const PasswordCard: FC<PasswordCardProps> = ({ id }) => {
 	// const theme = useTheme()
 	const refPaper = useRef<HTMLDivElement>(null)
-	const { toggleRightbar } = useSidebar()
+	const { toggleRightbar, isOpenRightbar } = useSidebar()
 	const [open, setOpen] = useState(false)
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
@@ -45,7 +45,7 @@ export const PasswordCard: FC<PasswordCardProps> = ({ id }) => {
 	const isFavorite = true
 
 	const openPassword = () => {
-		toggleRightbar()
+		!isOpenRightbar && toggleRightbar()
 		// if (id !== currentCardId) {
 		// 	setCurrentCardId(id)
 		// }
