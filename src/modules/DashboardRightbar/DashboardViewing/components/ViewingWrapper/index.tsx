@@ -7,8 +7,13 @@ import { Box, Stack } from '@mui/material'
 import { ViewingFooter } from './ViewingFooter'
 import { ViewingHeader } from './ViewingHeader'
 
+export type Actions = {
+	onDelete: () => void
+}
+
 interface ViewingWrapperProps {
 	children: ReactNode
+	actions?: Actions
 }
 
 export const ViewingWrapper: FC<ViewingWrapperProps> = ({ children }) => {

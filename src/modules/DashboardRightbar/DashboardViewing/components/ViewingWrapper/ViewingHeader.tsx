@@ -1,3 +1,5 @@
+import { Actions } from '.'
+
 import { FC } from 'react'
 
 import { IconButton, Stack, Typography } from '@mui/material'
@@ -6,7 +8,9 @@ import { ChevronRightIcon } from 'lucide-react'
 
 import { useSidebar } from '@providers/SidebarProvider'
 
-export const ViewingHeader: FC = () => {
+import { ViewingHeaderMenu } from './ViewingHeaderMenu'
+
+export const ViewingHeader: FC<{ actions?: Actions }> = ({ actions }) => {
 	const { isStaticRightbar, toggleRightbar } = useSidebar()
 
 	return (
@@ -27,7 +31,8 @@ export const ViewingHeader: FC = () => {
 					<ChevronRightIcon size={22} />
 				</IconButton>
 			)}
-			<Typography variant='h6'>Viewing Header</Typography>
+			<Typography variant='h6'>Просмотр</Typography>
+			<ViewingHeaderMenu />
 		</Stack>
 	)
 }

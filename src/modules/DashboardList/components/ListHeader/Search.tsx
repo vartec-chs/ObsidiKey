@@ -1,4 +1,4 @@
-import { MotionMuiStack } from '@/ui/MotionMuiStack'
+import { MotionMuiStack } from '@ui/MotionMuiStack'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { FC, useState } from 'react'
