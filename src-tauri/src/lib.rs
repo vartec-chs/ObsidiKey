@@ -94,7 +94,32 @@ pub async fn run() {
             }
             _ => {} // Игнорируем остальные события
         })
-        .setup(|app| Ok(()))
+        .setup(|app| {
+            let app_handle = app.handle();
+            #[cfg(debug_assertions)]
+            {
+                app_handle
+                    .webview_windows()
+                    .get("main")
+                    .unwrap()
+                    .open_devtools();
+
+                let app_path = app_handle.path();
+
+                let app_config_dir = app_path.app_config_dir().unwrap();
+                let app_data_dir = app_path.app_data_dir().unwrap();
+                let app_logs_dir = app_path.app_log_dir().unwrap();
+
+                info!(
+                    "Путь к конфигурационному каталогу: {}",
+                    app_config_dir.display()
+                );
+                info!("Путь к каталогу данных: {}", app_data_dir.display());
+                info!("Путь к каталогу логов: {}", app_logs_dir.display());
+            }
+
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
