@@ -3,15 +3,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ApiResult<T> {
+pub struct ApiAnswer<T> {
     pub is_success: bool,
     pub status_code: u32,
     pub message: String,
     pub data: Option<T>,
 }
 
-impl<T> ApiResult<T> {
-    /// Универсальный конструктор для ApiResult
+pub type ApiResult<S = (), E = ()> = std::result::Result<ApiAnswer<S>, ApiAnswer<E>>;
+
+impl<T> ApiAnswer<T> {
+    /// Универсальный конструктор для ApiAnswer
     fn new(
         is_success: bool,
         status_code: u32,
@@ -105,17 +107,17 @@ impl std::fmt::Display for ApiError {
         write!(f, "{}: {}", prefix, details.message)
     }
 }
-pub fn handle_command<T, F>(f: F) -> ApiResult<T>
+pub fn handle_command<T, F>(f: F) -> ApiAnswer<T>
 where
     F: FnOnce() -> Result<T, ApiError> + std::panic::UnwindSafe,
 {
     match std::panic::catch_unwind(f) {
-        Ok(Ok(data)) => ApiResult::success(0, "Успешно", Some(data)),
-        Ok(Err(err)) => ApiResult::error(err, None),
+        Ok(Ok(data)) => ApiAnswer::success(0, "Успешно", Some(data)),
+        Ok(Err(err)) => ApiAnswer::error(err, None),
         Err(panic_err) => {
             // Логирование паники (пример с использованием log)
             log::error!("Паника в handle_command: {:?}", panic_err);
-            ApiResult::error(
+            ApiAnswer::error(
                 ApiError::InternalError {
                     0: ErrorDetails {
                         code: 1,
