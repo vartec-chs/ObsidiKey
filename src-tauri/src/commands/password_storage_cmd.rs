@@ -1,13 +1,12 @@
-use log::{error, info};
+use log::info;
 use tauri::{command, State};
 
 use crate::{
     dto::password_storage_dto::{PasswordStorageCreateDto, PasswordStorageOpenDto},
-    services::password_storage_service::DBManagerError,
     states::db_manager::DBManager,
     utils::{
-        api_result::{ApiAnswer, ApiError, ApiResult, ErrorDetails},
-        check_path::check_path,
+        api_result::{ApiAnswer, ApiResult},
+        check_path::{check_is_not_exists, check_path},
     },
 };
 
@@ -16,33 +15,17 @@ pub async fn create_password_storage_cmd(
     dto: PasswordStorageCreateDto,
     db_manager: State<'_, DBManager>,
 ) -> ApiResult {
-    info!("Создание нового хранилища паролей: {:?}", dto.name);
-    let path = check_path(&dto.path)?; // Проверка существования пути
+    info!(
+        "Создание нового хранилища паролей: {:?}",
+        dto.name
+    );
+    let path = check_is_not_exists(&dto.path)?; // Проверка существования пути
 
-    let _ = db_manager
+    let result = db_manager
         .with_service_ref_mut(|service| service.create(dto.into(), path))
-        .map_err(|e| {
-            let (error_type, code, message) = match e {
-                DBManagerError::Database(db_err) => (
-                    ApiError::DBError as fn(ErrorDetails) -> ApiError,
-                    500,
-                    format!("Ошибка базы данных: {}", db_err),
-                ),
-                DBManagerError::InvalidKey => (
-                    ApiError::ValidationError as fn(ErrorDetails) -> ApiError,
-                    400,
-                    "Недопустимый ключ".to_string(),
-                ),
-                DBManagerError::NoConnection => (
-                    ApiError::InternalError as fn(ErrorDetails) -> ApiError,
-                    500,
-                    "Отсутствует соединение с базой данных".to_string(),
-                ),
-            };
+        .map_err(ApiAnswer::<()>::from)?;
 
-            error!("Ошибка создания хранилища паролей: {}", message);
-            ApiAnswer::error(error_type(ErrorDetails { code, message }), None)
-        })?;
+    info!("Результат создания хранилища паролей: {:#?}", result);
 
     Ok(ApiAnswer::success(200, "Успешно", None))
 }
@@ -54,30 +37,11 @@ pub async fn open_password_storage_cmd(
 ) -> ApiResult {
     info!("Открытие хранилища паролей: {}", dto.path);
     let path = check_path(&dto.path)?; // Проверка существования пути
-    let _ = db_manager
+    let result = db_manager
         .with_service_ref_mut(|service| service.open(path, dto.master_password))
-        .map_err(|e| {
-            let (error_type, code, message) = match e {
-                DBManagerError::Database(db_err) => (
-                    ApiError::DBError as fn(ErrorDetails) -> ApiError,
-                    500,
-                    format!("Ошибка базы данных: {}", db_err),
-                ),
-                DBManagerError::InvalidKey => (
-                    ApiError::ValidationError as fn(ErrorDetails) -> ApiError,
-                    400,
-                    "Недопустимый ключ".to_string(),
-                ),
-                DBManagerError::NoConnection => (
-                    ApiError::InternalError as fn(ErrorDetails) -> ApiError,
-                    500,
-                    "Отсутствует соединение с базой данных".to_string(),
-                ),
-            };
+        .map_err(ApiAnswer::<()>::from)?;
 
-            error!("Ошибка открытия хранилища паролей: {}", message);
-            ApiAnswer::error(error_type(ErrorDetails { code, message }), None)
-        })?;
+    info!("Результат открытия хранилища паролей: {:#?}", result);
 
     Ok(ApiAnswer::success(200, "Успешно", None))
 }
@@ -90,15 +54,6 @@ pub async fn close_password_storage_cmd(
     info!("Закрытие соединения с базой данных.");
     let _ = db_manager
         .with_service_ref_mut(|service| service.close(&app_handle))
-        .map_err(|e| {
-            error!("Ошибка закрытия соединения с базой данных: {}", e);
-            ApiAnswer::error(
-                ApiError::InternalError(ErrorDetails {
-                    code: 500,
-                    message: e.to_string(),
-                }),
-                None,
-            )
-        })?;
+        .map_err(ApiAnswer::<()>::from)?;
     Ok(ApiAnswer::success(200, "Успешно", None))
 }

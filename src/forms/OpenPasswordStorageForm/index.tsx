@@ -1,12 +1,12 @@
-import { ModTextField } from '@/ui/ModTextField'
-import { INVOKE_COMMANDS } from '@config/invoke-commands'
 import { EXTENSION_FILE, EXTENSION_NAME } from '@config/main'
 import { settingsService } from '@services/settings.service'
 import { LoadingButton } from '@ui/LoadingButton'
+import { ModTextField } from '@ui/ModTextField'
 
 import { FC, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
 
 import { open as openDialog } from '@tauri-apps/plugin-dialog'
 
@@ -16,10 +16,8 @@ import { Eye, EyeOff, FileInput } from 'lucide-react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useInvoke } from '@hooks/useInvoke'
-
 import { OpenPasswordStorageSchema, openPasswordStorageSchema } from './schema'
-import { PasswordStorageOpen } from './type'
+import { useOpenPasswordStorage } from './useOpenPasswordStorage'
 
 export const OpenPasswordStorageForm: FC = () => {
 	const navigate = useNavigate()
@@ -51,16 +49,11 @@ export const OpenPasswordStorageForm: FC = () => {
 		getDBPath()
 	}, [])
 
-	const openStorage = useInvoke<any, { dto: PasswordStorageOpen }>({
-		command: INVOKE_COMMANDS.PASSWORD_STORAGE.OPEN,
-		onError: (error) => {
-			console.log(error)
-			// toast.error(error.message)
-		},
-		onSuccess: (res) => {
-			// toast.success(res.message)
+	const openStorage = useOpenPasswordStorage({
+		onError: (error) => toast.error(error.message),
+		onSuccess: () => {
+			toast.success('База данных открыта')
 			reset()
-			// navigate(`${PATHS.DASHBOARD.ROOT}`, { replace: true })
 		},
 	})
 
@@ -81,11 +74,11 @@ export const OpenPasswordStorageForm: FC = () => {
 					setValue('path', path)
 					setFocus('masterPassword')
 				} else {
-					// toast.error('Путь не выбран')
+					toast.info('Путь не выбран')
 				}
 			})
 			.catch(() => {
-				// toast.error('Путь не выбран')
+				toast.error('Путь не выбран')
 			})
 	}
 

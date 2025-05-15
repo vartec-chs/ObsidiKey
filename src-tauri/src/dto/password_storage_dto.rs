@@ -4,7 +4,7 @@ use serde::Deserialize;
 #[serde(rename_all = "camelCase")]
 pub struct PasswordStorageCreateDto {
     pub name: String,
-    pub description: String,
+    pub description: Option<String>,
     pub path: String,
     pub master_password: String,
 }

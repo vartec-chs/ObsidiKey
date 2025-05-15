@@ -1,12 +1,11 @@
-import { INVOKE_COMMANDS } from '@config/invoke-commands'
-import { EXTENSION_FILE, EXTENSION_NAME } from '@config/main'
+import { EXTENSION_FILE, EXTENSION_NAME, logger } from '@config/main'
 import { LoadingButton } from '@ui/LoadingButton'
 import { ModTextField } from '@ui/ModTextField'
 
 import { FC, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-// import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
 
 import { save as saveDialog } from '@tauri-apps/plugin-dialog'
 
@@ -16,10 +15,8 @@ import { Eye, EyeOff } from 'lucide-react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useInvoke } from '@hooks/useInvoke'
-
 import { CreatePasswordStorageSchema, createPasswordStorageSchema } from './schema'
-import { PasswordStorageCreate } from './type'
+import { useCreatePasswordStorage } from './useCreatePasswordStorage'
 
 export const CreatePasswordStorageForm: FC = () => {
 	const navigate = useNavigate()
@@ -35,16 +32,10 @@ export const CreatePasswordStorageForm: FC = () => {
 		mode: 'onChange',
 	})
 
-	const createStorage = useInvoke<any, { dto: PasswordStorageCreate }>({
-		command: INVOKE_COMMANDS.PASSWORD_STORAGE.CREATE,
-		onError: (error) => {
-			console.log(error)
-			// toast.error(error.message)
-		},
-		onSuccess: (res) => {
-			// toast.success(res.message)
-			reset()
-			// navigate(`${PATHS.DASHBOARD.ROOT}`, { replace: true })
+	const createStorage = useCreatePasswordStorage({
+		onError: (error) => toast.error(error.message),
+		onSuccess: () => {
+			toast.success('Создано'), reset()
 		},
 	})
 
@@ -60,12 +51,7 @@ export const CreatePasswordStorageForm: FC = () => {
 		})
 
 		if (path) {
-			console.log({
-				name: data.name,
-				description: data.description,
-				path,
-				master_password: data.masterPassword,
-			})
+			logger.info(JSON.stringify({ path, ...data }))
 			await createStorage.execute({
 				dto: {
 					name: data.name,
@@ -75,7 +61,7 @@ export const CreatePasswordStorageForm: FC = () => {
 				},
 			})
 		} else {
-			// toast.error('Путь не выбран')
+			toast.error('Путь не выбран')
 		}
 	}
 

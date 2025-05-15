@@ -3,7 +3,10 @@ use rusqlite::{params, Connection, Error as RusqliteError, OpenFlags};
 use std::path::PathBuf;
 use tauri_plugin_store::StoreExt; // Импортируем макросы логирования
 
-use crate::models::password_storage_model::PasswordStorageModel;
+use crate::{
+    models::password_storage_model::PasswordStorageModel,
+    utils::api_result::{ApiAnswer, ApiError, ErrorDetails},
+};
 
 #[derive(Debug, thiserror::Error)]
 pub enum DBManagerError {
@@ -152,5 +155,30 @@ impl PasswordStorageService {
         debug!("Данные успешно вставлены в таблицу password_storage.");
 
         Ok(())
+    }
+}
+
+impl From<DBManagerError> for ApiAnswer<()> {
+    fn from(err: DBManagerError) -> Self {
+        let (error_type, code, message) = match err {
+            DBManagerError::Database(db_err) => (
+                ApiError::DBError as fn(ErrorDetails) -> ApiError,
+                500,
+                format!("{}", db_err),
+            ),
+            DBManagerError::InvalidKey => (
+                ApiError::ValidationError as fn(ErrorDetails) -> ApiError,
+                400,
+                "Недопустимый ключ".to_string(),
+            ),
+            DBManagerError::NoConnection => (
+                ApiError::InternalError as fn(ErrorDetails) -> ApiError,
+                500,
+                "Отсутствует соединение с базой данных".to_string(),
+            ),
+        };
+
+        error!("Ошибка: {}", message);
+        ApiAnswer::error(error_type(ErrorDetails { code, message }), None)
     }
 }

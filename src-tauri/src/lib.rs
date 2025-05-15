@@ -66,18 +66,7 @@ pub async fn run() {
                     .with_service_ref_mut(|service| service.close(event.app_handle()));
 
                 match result {
-                    Ok(s) => match s {
-                        Ok(_) => info!("Соединение с базой данных успешно закрыто."),
-                        Err(e) => match e {
-                            DBManagerError::NoConnection => {
-                                info!("Соединение с базой данных уже закрыто.")
-                            }
-                            _ => {
-                                api.prevent_close();
-                                error!("Ошибка закрытия соединения с базой данных: {}", e)
-                            }
-                        },
-                    },
+                    Ok(s) => info!("Соединение с базой данных закрыто: {}", s),
                     Err(e) => match e {
                         DBManagerError::NoConnection => {
                             info!("Соединение с базой данных уже закрыто.")

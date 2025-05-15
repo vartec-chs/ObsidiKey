@@ -5,3 +5,4 @@ pub const PREFIX_DB: u8 = 42;
 pub const PREFIX_INTERNAL: u8 = 43;
 pub const PREFIX_VALIDATION: u8 = 50;
 pub const PREFIX_PASSWORD_GEN: u8 = 51;
+pub const PREFIX_FS: u8 = 52;

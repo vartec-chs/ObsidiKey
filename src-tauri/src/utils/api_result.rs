@@ -78,6 +78,7 @@ pub enum ApiError {
     InternalError(ErrorDetails),
     AccessError(ErrorDetails),
     PasswordGeneratorError(ErrorDetails),
+    FSError(ErrorDetails),
 }
 
 impl ApiError {
@@ -89,6 +90,7 @@ impl ApiError {
             ApiError::InternalError(details) => (PREFIX_INTERNAL, details),
             ApiError::AccessError(details) => (PREFIX_ACCESS, details),
             ApiError::PasswordGeneratorError(details) => (PREFIX_PASSWORD_GEN, details),
+            ApiError::FSError(details) => (PREFIX_FS, details),
         };
         format_status_code(prefix, details.code)
     }
@@ -103,6 +105,7 @@ impl std::fmt::Display for ApiError {
             ApiError::InternalError(details) => ("Неизвестная ошибка", details),
             ApiError::AccessError(details) => ("Ошибка доступа", details),
             ApiError::PasswordGeneratorError(details) => ("Ошибка генератора паролей", details),
+            ApiError::FSError(details) => ("Ошибка работы с файловой системой", details),
         };
         write!(f, "{}: {}", prefix, details.message)
     }

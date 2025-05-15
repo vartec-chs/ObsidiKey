@@ -64,14 +64,12 @@ impl DBManager {
     }
 
     /// Выполняет замыкание с мутабельной ссылкой на PasswordStorageService.
-    pub fn with_service_ref_mut<F, R>(&self, f: F) -> Result<R, DBManagerError>
+    pub fn with_service_ref_mut<F, R>(&self, f: F) -> R
     where
         F: FnOnce(&mut PasswordStorageService) -> R,
     {
-        let mut service = self
-            .service
-            .lock()
-            .map_err(|_| DBManagerError::NoConnection)?;
-        Ok(f(&mut service))
+        let mut service = self.service.lock().unwrap();
+        // .map_err(|_| DBManagerError::NoConnection)?;
+        f(&mut service)
     }
 }
