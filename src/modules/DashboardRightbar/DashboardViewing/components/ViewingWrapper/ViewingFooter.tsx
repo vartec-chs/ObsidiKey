@@ -1,8 +1,15 @@
+import { Actions } from '.'
+
 import { FC } from 'react'
 
 import { Button, Stack, Typography } from '@mui/material'
 
-export const ViewingFooter: FC = () => {
+interface ViewingFooterProps {
+	actions?: Actions
+	mode: 'view' | 'edit'
+}
+
+export const ViewingFooter: FC<ViewingFooterProps> = ({ mode }) => {
 	return (
 		<Stack
 			pt={0.5}
@@ -17,7 +24,7 @@ export const ViewingFooter: FC = () => {
 			})}
 		>
 			<Button fullWidth size='large' variant='contained'>
-				Сохранить
+				{mode === 'view' ? 'Edit' : 'Save'}
 			</Button>
 		</Stack>
 	)

@@ -10,7 +10,12 @@ import { useSidebar } from '@providers/SidebarProvider'
 
 import { ViewingHeaderMenu } from './ViewingHeaderMenu'
 
-export const ViewingHeader: FC<{ actions?: Actions }> = ({ actions }) => {
+interface ViewingHeaderProps {
+	actions?: Actions
+	mode: 'view' | 'edit'
+}
+
+export const ViewingHeader: FC<ViewingHeaderProps> = ({ actions, mode }) => {
 	const { isStaticRightbar, toggleRightbar } = useSidebar()
 
 	return (
@@ -31,7 +36,7 @@ export const ViewingHeader: FC<{ actions?: Actions }> = ({ actions }) => {
 					<ChevronRightIcon size={22} />
 				</IconButton>
 			)}
-			<Typography variant='h6'>Просмотр</Typography>
+			<Typography variant='h6'>{mode === 'edit' ? 'Редактирование' : 'Просмотр'}</Typography>
 			<ViewingHeaderMenu />
 		</Stack>
 	)

@@ -13,10 +13,11 @@ export type Actions = {
 
 interface ViewingWrapperProps {
 	children: ReactNode
+	mode: 'view' | 'edit'
 	actions?: Actions
 }
 
-export const ViewingWrapper: FC<ViewingWrapperProps> = ({ children }) => {
+export const ViewingWrapper: FC<ViewingWrapperProps> = ({ children, mode, actions }) => {
 	return (
 		<Stack
 			direction='column'
@@ -26,11 +27,11 @@ export const ViewingWrapper: FC<ViewingWrapperProps> = ({ children }) => {
 			alignItems='center'
 			gap={0.5}
 		>
-			<ViewingHeader />
+			<ViewingHeader mode={mode} />
 			<Box width='100%' height='100%' sx={(theme) => scrollBar(theme)}>
 				{children}
 			</Box>
-			<ViewingFooter />
+			<ViewingFooter mode={mode} />
 		</Stack>
 	)
 }
