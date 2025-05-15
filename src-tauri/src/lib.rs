@@ -53,7 +53,13 @@ pub async fn run() {
         ])
         .on_window_event(|event, window_event| match window_event {
             WindowEvent::CloseRequested { api, .. } => {
-                println!("Окно запрошено на закрытие");
+                let window_label = event.label();
+                info!("Окно {} запрошено на закрытие", window_label);
+
+                if window_label != "main" {
+                    return;
+                }
+
                 let db_manager_state = event.state::<DBManager>();
 
                 let result = db_manager_state.with_service_ref_mut(|service| {
@@ -74,7 +80,7 @@ pub async fn run() {
                 }
             }
             WindowEvent::Destroyed => {
-                println!("Окно уничтожено");
+                info!("Окно уничтожено");
             }
             _ => {} // Игнорируем остальные события
         })
