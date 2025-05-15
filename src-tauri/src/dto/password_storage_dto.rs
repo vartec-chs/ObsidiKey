@@ -11,7 +11,7 @@ pub struct PasswordStorageCreateDto {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct OpenStoreDto {
+pub struct PasswordStorageOpenDto {
     pub path: String,
     pub master_password: String,
 }

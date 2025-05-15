@@ -26,7 +26,7 @@ impl PasswordStorageService {
         &mut self,
         model: PasswordStorageModel,
         path: PathBuf,
-    ) -> Result<(), DBManagerError> {
+    ) -> Result<String, DBManagerError> {
         info!("Создание базы данных по пути: {:?}", path);
         let flags = OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_CREATE;
         let conn = Connection::open_with_flags(&path, flags)?;
@@ -45,10 +45,14 @@ impl PasswordStorageService {
         self.path = Some(path);
         debug!("Соединение сохранено в состоянии менеджера.");
 
-        Ok(())
+        Ok("Соединение с базой данных успешно установлено.".to_string())
     }
 
-    pub fn open(&mut self, path: PathBuf, master_password: String) -> Result<(), DBManagerError> {
+    pub fn open(
+        &mut self,
+        path: PathBuf,
+        master_password: String,
+    ) -> Result<String, DBManagerError> {
         info!("Открытие базы данных по пути: {:?}", path);
         let flags = OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_CREATE;
         let conn = Connection::open_with_flags(&path, flags)?;
@@ -76,7 +80,7 @@ impl PasswordStorageService {
         self.path = Some(path);
         debug!("Соединение сохранено в состоянии менеджера.");
 
-        Ok(())
+        Ok("Соединение с базой данных успешно установлено.".to_string())
     }
 
     pub fn close(&mut self, app_handle: &tauri::AppHandle) -> Result<String, DBManagerError> {

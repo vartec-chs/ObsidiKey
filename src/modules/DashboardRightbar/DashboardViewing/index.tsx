@@ -1,21 +1,31 @@
+import { scrollBar } from '@config/theme'
 import { DashboardPaper } from '@ui/DashboardPaper'
 
 import { FC } from 'react'
 
-import { Typography } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 
-import { ViewingWrapper } from './components/ViewingWrapper'
+
+import { ViewingFooter } from './components/ViewingWrapper/ViewingFooter'
+import { ViewingHeader } from './components/ViewingWrapper/ViewingHeader'
 
 export const DashboardViewing: FC = () => {
 	console.log('DashboardViewing Render')
 	const mode: 'view' | 'edit' = 'view'
 	return (
 		<DashboardPaper>
-			<ViewingWrapper mode={mode} >
-				{new Array(30).fill(0).map((_, index) => (
-					<Typography key={index}>Item {index}</Typography>
-				))}
-			</ViewingWrapper>
+			<Stack
+				direction='column'
+				height='100%'
+				width='100%'
+				justifyContent='space-between'
+				alignItems='center'
+				gap={0.5}
+			>
+				<ViewingHeader mode={mode} />
+				<Box width='100%' height='100%' sx={(theme) => scrollBar(theme)}></Box>
+				<ViewingFooter mode={mode} />
+			</Stack>
 		</DashboardPaper>
 	)
 }

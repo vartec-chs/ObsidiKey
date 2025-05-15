@@ -1,102 +1,104 @@
 use log::{error, info};
-use std::path::{Path, PathBuf};
-use tauri::{command, AppHandle, Manager, State};
+use tauri::{command, State};
 
 use crate::{
-    dto::password_storage_dto::PasswordStorageCreateDto,
+    dto::password_storage_dto::{PasswordStorageCreateDto, PasswordStorageOpenDto},
     services::password_storage_service::DBManagerError,
     states::db_manager::DBManager,
-    utils::api_result::{handle_command, ApiError, ApiResult, ErrorDetails},
+    utils::{
+        api_result::{ApiError, ApiResult, ErrorDetails},
+        check_path::check_path,
+    },
 };
 
 #[command]
-pub fn create_password_storage_cmd(
+pub async fn create_password_storage_cmd(
     dto: PasswordStorageCreateDto,
     db_manager: State<'_, DBManager>,
 ) -> Result<ApiResult<()>, ApiResult<()>> {
     info!("Создание нового хранилища паролей: {:?}", dto.name);
-    let path = PathBuf::from(dto.path.clone());
+    let path = check_path(&dto.path)?; // Проверка существования пути
 
-    if path.exists() {
-        error!("Путь не существует: {:#?}", &path);
-        return Err(ApiResult::error(
-            ApiError::InternalError {
-                0: ErrorDetails {
-                    code: 400,
-                    message: "Путь не существует".to_string(),
-                },
-            },
-            None,
-        ));
-    }
-
-    let res = db_manager.get_service_ref_mut(|service| match service.create(dto.into(), path) {
-        Ok(_) => {
-            info!("Хранилище паролей успешно создано");
-            return Ok(ApiResult::success(
-                200,
-                "Хранилище паролей успешно создано",
-                None,
-            ));
-        }
-
-        Err(err) => {
-            let api_error = match err {
-                DBManagerError::Database(err) => ApiError::DBError {
-                    0: ErrorDetails {
-                        code: 500,
-                        message: "Ошибка базы данных".to_string(),
-                    },
-                },
-                DBManagerError::InvalidKey => ApiError::DBError {
-                    0: ErrorDetails {
-                        code: 400,
-                        message: "Неверный ключ".to_string(),
-                    },
-                },
-                DBManagerError::NoConnection => ApiError::DBError {
-                    0: ErrorDetails {
-                        code: 400,
-                        message: "Нет соединения".to_string(),
-                    },
-                },
+    let _ = db_manager
+        .with_service_ref_mut(|service| service.create(dto.into(), path))
+        .map_err(|e| {
+            let (error_type, code, message) = match e {
+                DBManagerError::Database(db_err) => (
+                    ApiError::DBError as fn(ErrorDetails) -> ApiError,
+                    500,
+                    format!("Ошибка базы данных: {}", db_err),
+                ),
+                DBManagerError::InvalidKey => (
+                    ApiError::ValidationError as fn(ErrorDetails) -> ApiError,
+                    400,
+                    "Недопустимый ключ".to_string(),
+                ),
+                DBManagerError::NoConnection => (
+                    ApiError::InternalError as fn(ErrorDetails) -> ApiError,
+                    500,
+                    "Отсутствует соединение с базой данных".to_string(),
+                ),
             };
-            return Err(ApiResult::error(api_error, None));
-        }
-    });
 
-    match res {
-        Ok(_) => {
-            Ok(()) => {
-                info!("Хранилище паролей успешно создано");
-                return Ok(ApiResult::success(
-                    200,
-                    "Хранилище паролей успешно создано",
-                    None,
-                ));
-            },
-            Err(err) => {
-                return Err(ApiResult::error(
-                    ApiError::InternalError {
-                        0: ErrorDetails {
-                            code: 500,
-                            message: format!("Ошибка: {}", err),
-                        }
-                    }
-                ))
-            }
-			};
-        },
-        Err(err) => {
-            return Err(ApiResult::error(
-                ApiError::InternalError {
-                    0: ErrorDetails {
-                        code: 500,
-                        message: format!("Ошибка: {}", err),
-                    },
-                },
+            error!("Ошибка создания хранилища паролей: {}", message);
+            ApiResult::error(error_type(ErrorDetails { code, message }), None)
+        })?;
+
+    Ok(ApiResult::success(200, "Успешно", None))
+}
+
+#[command]
+pub async fn open_password_storage_cmd(
+    dto: PasswordStorageOpenDto,
+    db_manager: State<'_, DBManager>,
+) -> Result<ApiResult<()>, ApiResult<()>> {
+    info!("Открытие хранилища паролей: {}", dto.path);
+    let path = check_path(&dto.path)?; // Проверка существования пути
+    let _ = db_manager
+        .with_service_ref_mut(|service| service.open(path, dto.master_password))
+        .map_err(|e| {
+            let (error_type, code, message) = match e {
+                DBManagerError::Database(db_err) => (
+                    ApiError::DBError as fn(ErrorDetails) -> ApiError,
+                    500,
+                    format!("Ошибка базы данных: {}", db_err),
+                ),
+                DBManagerError::InvalidKey => (
+                    ApiError::ValidationError as fn(ErrorDetails) -> ApiError,
+                    400,
+                    "Недопустимый ключ".to_string(),
+                ),
+                DBManagerError::NoConnection => (
+                    ApiError::InternalError as fn(ErrorDetails) -> ApiError,
+                    500,
+                    "Отсутствует соединение с базой данных".to_string(),
+                ),
+            };
+
+            error!("Ошибка открытия хранилища паролей: {}", message);
+            ApiResult::error(error_type(ErrorDetails { code, message }), None)
+        })?;
+
+    Ok(ApiResult::success(200, "Успешно", None))
+}
+
+#[command]
+pub async fn close_password_storage_cmd(
+    db_manager: State<'_, DBManager>,
+    app_handle: tauri::AppHandle,
+) -> Result<ApiResult<()>, ApiResult<()>> {
+    info!("Закрытие соединения с базой данных.");
+    let _ = db_manager
+        .with_service_ref_mut(|service| service.close(&app_handle))
+        .map_err(|e| {
+            error!("Ошибка закрытия соединения с базой данных: {}", e);
+            ApiResult::error(
+                ApiError::InternalError(ErrorDetails {
+                    code: 500,
+                    message: e.to_string(),
+                }),
                 None,
-            ))
-        }
-    }
+            )
+        })?;
+    Ok(ApiResult::success(200, "Успешно", None))
 }
