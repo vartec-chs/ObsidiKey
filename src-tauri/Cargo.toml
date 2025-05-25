@@ -19,12 +19,12 @@ tauri-build = { version = "2.2.0", features = [] }
 
 [dependencies]
 tauri = { version = "2.5.1", features = [] }
-tauri-plugin-opener = "2.2.6"
+tauri-plugin-opener = "2.2.7"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
 tauri-plugin-clipboard-manager = "2.2.2"
-tauri-plugin-dialog = "2.2.1"
-tauri-plugin-fs = "2.2.1"
+tauri-plugin-dialog = "2.2.2"
+tauri-plugin-fs = "2.3.0"
 tauri-plugin-log = "2.4.0"
 tauri-plugin-store = "2.2.0"
 tauri-plugin-process = "2"
@@ -40,6 +40,6 @@ chrono = "0.4.41"
 base64 = "0.22.1"
 rand = "0.9.1"
 rust-argon2 = { version = "2.1.0" }
-uuid = { version = "1.16.0", features = ["v4"] }
+uuid = { version = "1.17.0", features = ["v4"] }
 thiserror = "2.0.12"
 log = "0.4"

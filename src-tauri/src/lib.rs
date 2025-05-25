@@ -79,7 +79,16 @@ pub async fn run() {
                 }
             }
             WindowEvent::Destroyed => {
-                info!("Окно уничтожено");
+                let window_label = event.label();
+                info!("Окно {} уничтожено", window_label);
+            }
+            WindowEvent::Focused { 0: state } => {
+                let window_label = event.label();
+                if *state {
+                    info!("Окно {} получило фокус", window_label);
+                } else {
+                    info!("Окно {} потеряло фокус", window_label);
+                }
             }
             _ => {} // Игнорируем остальные события
         })
